@@ -1,0 +1,2 @@
+target=08_ETHERNET.kicad_sch
+parts=4
