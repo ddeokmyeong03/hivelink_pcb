@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "HIVE_LINK")(type "KiCad")(uri "${KIPRJMOD}/HIVE_LINK.pretty")(options "")(descr "HIVE LINK project footprints"))
+)
