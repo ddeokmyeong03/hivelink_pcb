@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "hive_link")(type "KiCad")(uri "${KIPRJMOD}/hive_link.kicad_sym")(options "")(descr "HIVE LINK Rev.A custom schematic symbols"))
+)
