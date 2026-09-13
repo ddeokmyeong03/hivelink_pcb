@@ -21,9 +21,9 @@ https://kicanvas.org/?github=https://github.com/ddeokmyeong03/hivelink_pcb/blob/
 
 ## Current engineering milestone
 
-**Rev.A / v0.9 — full placement/ratsnest preview prepared locally + high-speed placement correction**
+**Rev.A / v0.10 — reference alignment + routing-corridor freeze**
 
-The GitHub root remains intentionally optimized for KiCanvas review while the full detailed source is kept under native-KiCad verification.
+The GitHub root remains optimized for browser review while the complete detailed source remains under native-KiCad verification.
 
 Current root files:
 
@@ -35,9 +35,14 @@ Current root files:
 
 > **Important:** the root schematic shown in KiCanvas is a system-level review schematic, not the fabrication-release detailed schematic.
 
-## v0.9 placement review
+## v0.10 reference alignment
 
-The v0.9 engineering pass corrected high-speed/field-interface placement before routing:
+Ethernet ESD U19/U20 is now aligned to `TPD4EUSB30`, matching the Raspberry Pi CM4 official Ethernet reference design. The Pixhawk TELEM ESD U11 remains `TPD4E05U06`.
+
+Review document:
+- `docs/HIVE_LINK_RevA_Reference_Alignment_v0.10.md`
+
+## v0.9 placement corrections retained
 
 - CAN1/2 ESD devices moved connector-side
 - TELEM ESD moved connector-side
@@ -45,12 +50,10 @@ The v0.9 engineering pass corrected high-speed/field-interface placement before 
 - CAN support components compacted around each transceiver
 - TELEM series resistors compacted behind the ESD stage
 
-Review document:
+Placement review:
 - `docs/HIVE_LINK_RevA_HighSpeed_Placement_v0.9.md`
 
 ## Electrical design baseline
-
-Completed in the engineering design baseline:
 
 - 7–24 V protected power input
 - TPS26632 eFuse / reverse-polarity protection
@@ -78,7 +81,7 @@ Completed in the engineering design baseline:
 - Ethernet target: 100 Ω differential
 - USB 2.0 target: 90 Ω differential
 
-## Placement data already synchronized
+## Placement / validation data synchronized
 
 - `docs/HIVE_LINK_RevA_Full_Placement_v0.8.csv`
 - `docs/HIVE_LINK_RevA_Placement_Audit_v0.8.md`
@@ -94,7 +97,7 @@ Required before Gerber release:
 1. Open the full detailed design in native KiCad
 2. Run ERC
 3. Update PCB from Schematic
-4. Apply/verify physical placement
+4. Verify official footprints/courtyards and physical placement
 5. Route Power → Ethernet → USB → CAN → low-speed signals
 6. Refill zones and verify return-current paths
 7. Run DRC
@@ -108,4 +111,4 @@ KiCanvas is used for browser-based review and sharing. Native KiCad remains the 
 
 ## Status
 
-Latest engineering baseline: **v0.9**
+Latest engineering baseline: **v0.10**
