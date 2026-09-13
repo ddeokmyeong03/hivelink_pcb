@@ -1,0 +1,75 @@
+name: Sync verified HIVE LINK detail payload
+
+on:
+  push:
+    paths:
+      - 'payload/hivelink-detail.part-*'
+      - '.github/workflows/sync-detail-payload.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-detail:
+    if: ${{ !startsWith(github.event.head_commit.message, 'Sync verified HIVE LINK detail design') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify and extract detailed KiCad payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_parts=4
+          count=$(find payload -maxdepth 1 -type f -name 'hivelink-detail.part-*' | wc -l | tr -d ' ')
+          if [ "$count" != "$expected_parts" ]; then
+            echo "Expected ${expected_parts} payload parts, found ${count}."
+            exit 1
+          fi
+
+          cat $(find payload -maxdepth 1 -type f -name 'hivelink-detail.part-*' | sort) > /tmp/hivelink-detail.tar.xz
+          echo "ffbc4484ac72e8d38c9aab961e35f85f47ce95ffdbdad7dda3f1fe6a70c88097  /tmp/hivelink-detail.tar.xz" | sha256sum -c -
+
+          tar -xJf /tmp/hivelink-detail.tar.xz -C .
+
+          # Basic structural sanity before committing.
+          test -f 01_POWER_INPUT.kicad_sch
+          test -f 03_CM4_CORE.kicad_sch
+          test -f 08_ETHERNET.kicad_sch
+          test -f 11_DEBUG_TEST.kicad_sch
+          test -f hive_link.kicad_sym
+          test -f HIVE_LINK.pretty/Raspberry-Pi-4-Compute-Module.kicad_mod
+          test -f HIVE_LINK.pretty/TRJG0926HENL_CM4IO.kicad_mod
+
+      - name: Commit verified detailed design
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            01_POWER_INPUT.kicad_sch \
+            02_POWER_5V.kicad_sch \
+            03_CM4_CORE.kicad_sch \
+            04_STM32_NODE_CTRL.kicad_sch \
+            05_CAN_DUAL.kicad_sch \
+            06_UART_FC.kicad_sch \
+            07_USB.kicad_sch \
+            08_ETHERNET.kicad_sch \
+            09_IDENTITY_RTC.kicad_sch \
+            10_EXPANSION_IO.kicad_sch \
+            11_DEBUG_TEST.kicad_sch \
+            hive_link.kicad_sym \
+            HIVE_LINK.pretty \
+            HIVE_LINK_RevA_BOM_v0.6.csv \
+            VALIDATION_v0.6.md
+
+          if git diff --cached --quiet; then
+            echo "Detailed design already synchronized."
+            exit 0
+          fi
+
+          git commit -m "Sync verified HIVE LINK detail design"
+          git push
