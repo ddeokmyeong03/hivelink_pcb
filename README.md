@@ -15,19 +15,38 @@ https://kicanvas.org/?github=https://github.com/ddeokmyeong03/hivelink_pcb/blob/
 ### PCB placement preview
 https://kicanvas.org/?github=https://github.com/ddeokmyeong03/hivelink_pcb/blob/main/HIVE_LINK_RevA_KiCanvas_Placement_Preview.kicad_pcb
 
+### Detailed sheets currently synchronized
+- Identity: https://kicanvas.org/?github=https://github.com/ddeokmyeong03/hivelink_pcb/blob/main/09_IDENTITY_RTC.kicad_sch
+- Expansion: https://kicanvas.org/?github=https://github.com/ddeokmyeong03/hivelink_pcb/blob/main/10_EXPANSION_IO.kicad_sch
+
 ## Current engineering milestone
 
-**Rev.A / v0.8 — electrical architecture + footprint freeze + physical placement planning**
+**Rev.A / v0.9 — full placement/ratsnest preview prepared locally + high-speed placement correction**
 
-Current GitHub root files are intentionally optimized so the project can be opened in KiCanvas now:
+The GitHub root remains intentionally optimized for KiCanvas review while the full detailed source is kept under native-KiCad verification.
+
+Current root files:
 
 - `HIVE_LINK_RevA.kicad_pro` — project
 - `HIVE_LINK_RevA.kicad_sch` — KiCanvas system-level overview
-- `HIVE_LINK_RevA.kicad_pcb` — 100 × 70 mm PCB floorplan / placement guide
-- `HIVE_LINK_RevA_KiCanvas_Placement_Preview.kicad_pcb` — clearer placement preview
+- `HIVE_LINK_RevA.kicad_pcb` — 100 × 70 mm board floorplan
+- `HIVE_LINK_RevA_KiCanvas_Placement_Preview.kicad_pcb` — browser placement preview
 - `HIVE_LINK_RevA.kicad_dru` — conservative custom DRC rules
 
-> **Important:** the root schematic currently shown in KiCanvas is a system-level overview, not the fabrication-release detailed schematic. The detailed multi-sheet electrical capture is still under native KiCad verification and is being synchronized incrementally.
+> **Important:** the root schematic shown in KiCanvas is a system-level review schematic, not the fabrication-release detailed schematic.
+
+## v0.9 placement review
+
+The v0.9 engineering pass corrected high-speed/field-interface placement before routing:
+
+- CAN1/2 ESD devices moved connector-side
+- TELEM ESD moved connector-side
+- remote CAN_H/L debug pads moved local to the transceivers to avoid long PCB stubs
+- CAN support components compacted around each transceiver
+- TELEM series resistors compacted behind the ESD stage
+
+Review document:
+- `docs/HIVE_LINK_RevA_HighSpeed_Placement_v0.9.md`
 
 ## Electrical design baseline
 
@@ -59,13 +78,20 @@ Completed in the engineering design baseline:
 - Ethernet target: 100 Ω differential
 - USB 2.0 target: 90 Ω differential
 
+## Placement data already synchronized
+
+- `docs/HIVE_LINK_RevA_Full_Placement_v0.8.csv`
+- `docs/HIVE_LINK_RevA_Placement_Audit_v0.8.md`
+- `docs/HIVE_LINK_RevA_Placement_Review_v0.8.md`
+- `docs/VALIDATION_v0.6.md`
+
 ## Fabrication gate
 
 This repository is **not fabrication-ready yet**.
 
 Required before Gerber release:
 
-1. Open in native KiCad
+1. Open the full detailed design in native KiCad
 2. Run ERC
 3. Update PCB from Schematic
 4. Apply/verify physical placement
@@ -78,8 +104,8 @@ Required before Gerber release:
 
 ## KiCanvas note
 
-KiCanvas is used here for browser-based review and sharing. Native KiCad remains the source of truth for ERC, PCB synchronization, routing and DRC.
+KiCanvas is used for browser-based review and sharing. Native KiCad remains the source of truth for ERC, PCB synchronization, routing and DRC.
 
 ## Status
 
-Latest GitHub/KiCanvas synchronization baseline: **v0.8**
+Latest engineering baseline: **v0.9**
