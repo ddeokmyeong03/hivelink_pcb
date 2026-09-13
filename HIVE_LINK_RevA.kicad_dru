@@ -1,0 +1,32 @@
+(version 1)
+
+# HIVE LINK Rev.A v0.7
+# These are conservative geometry checks, NOT controlled-impedance definitions.
+# USB/Ethernet width/gap must be entered from the fabricator impedance calculator.
+
+(rule "HIVE minimum track width"
+  (condition "A.Type == 'Track'")
+  (constraint track_width (min 0.127mm))
+)
+
+(rule "HIVE edge clearance"
+  (condition "A.Type == 'Track'")
+  (constraint edge_clearance (min 0.3mm))
+)
+
+(rule "HIVE minimum via diameter"
+  (condition "A.Type == 'Via'")
+  (constraint via_diameter (min 0.45mm))
+)
+
+(rule "HIVE minimum via drill"
+  (condition "A.Type == 'Via'")
+  (constraint hole_size (min 0.20mm))
+)
+
+(rule "HIVE silkscreen text"
+  (layer "F.SilkS")
+  (condition "A.Type == 'Text' || A.Type == 'Text Box'")
+  (constraint text_height (min 1.0mm))
+  (constraint text_thickness (min 0.15mm))
+)
